@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ask Dose · TastyDose</title>
+<meta name="description" content="Questions about TastyDose products, delivery or returns? Ask our assistant.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Oswald:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #FEF9F1; --paper: #FFFFFF; --sand: #F4EDDF; --line: #E6DCCB;
+  --ink: #39302E; --brown: #583E36; --black: #1C1A17; --espresso: #3A2E2B;
+  --cream: #F6EDE0; --caramel: #C69C72;
+  --script: "Instrument Serif", Georgia, serif;
+  --display: "Oswald", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --logo-url: url("https://tastydose.com/cdn/shop/files/LOGO_td_dark.png?v=1778152107&width=400");
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); -webkit-font-smoothing: antialiased; }
+.app { max-width: 520px; margin: 0 auto; height: 100dvh; display: flex; flex-direction: column; }
+
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px 12px; border-bottom: 1px solid var(--line); background: var(--bg); }
+.logo { display: block; width: 132px; height: 38px; background: var(--brown); -webkit-mask: var(--logo-url) left center / contain no-repeat; mask: var(--logo-url) left center / contain no-repeat; }
+.wordmark { font: 600 26px/1 var(--display); text-transform: uppercase; letter-spacing: .03em; color: var(--brown); }
+.status { display: flex; align-items: center; gap: 7px; font: 500 12px var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--brown); }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: #3F7A52; box-shadow: 0 0 0 3px rgba(63,122,82,.15); }
+
+#log { flex: 1; overflow-y: auto; padding: 18px 18px 8px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
+
+.hero { background: var(--espresso); color: var(--cream); border-radius: 22px; padding: 20px 20px 22px; display: flex; gap: 16px; align-items: center; box-shadow: 0 16px 36px rgba(46,36,33,.22); margin-bottom: 4px; }
+.polaroid { flex: none; background: #FBF7F0; padding: 7px 7px 0; width: 92px; transform: rotate(-3deg); box-shadow: 0 8px 18px rgba(0,0,0,.28); position: relative; }
+.polaroid .tape { position: absolute; top: -8px; left: 50%; width: 46px; height: 14px; background: rgba(230,190,118,.78); transform: translateX(-50%) rotate(-5deg); }
+.polaroid .photo { aspect-ratio: 1 / .92; background: #8C6A55; display: grid; place-items: center; color: #FBF4EA; }
+.polaroid .photo svg { width: 46%; }
+.polaroid .cap { font-family: var(--script); font-style: italic; font-size: 17px; color: var(--brown); padding: 4px 0 6px; text-align: center; line-height: 1; }
+.hero .eyebrow { font: 500 11px var(--body); letter-spacing: .16em; text-transform: uppercase; color: var(--caramel); }
+.hero h1 { font-family: var(--display); font-weight: 500; font-size: 30px; line-height: 1.02; text-transform: uppercase; margin: 4px 0 6px; letter-spacing: .01em; }
+.hero p { margin: 0; font-size: 14.5px; line-height: 1.45; color: #E9DCCB; }
+
+.msg { max-width: 86%; padding: 11px 14px; border-radius: 16px; font-size: 15.5px; line-height: 1.5; overflow-wrap: anywhere; animation: pop .18s ease-out; }
+@keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.bot { align-self: flex-start; background: var(--paper); border: 1px solid var(--line); border-bottom-left-radius: 5px; }
+.user { align-self: flex-end; background: var(--espresso); color: var(--cream); border-bottom-right-radius: 5px; white-space: pre-wrap; }
+.bot p { margin: 0 0 8px; } .bot p:last-child { margin: 0; }
+.bot ul, .bot ol { margin: 4px 0 8px; padding-left: 20px; } .bot li { margin: 2px 0; }
+.bot a { color: var(--brown); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.bot strong { font-weight: 600; }
+.err { border-color: #E9B8A9; background: #FFF6F2; }
+
+.typing { display: inline-flex; gap: 5px; padding: 15px 16px; }
+.typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--caramel); animation: blink 1.2s infinite ease-in-out; }
+.typing span:nth-child(2) { animation-delay: .15s; } .typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes blink { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 4px; }
+.chip { appearance: none; border: 1px solid var(--ink); background: transparent; color: var(--ink); border-radius: 999px; padding: 8px 13px; font: 500 13.5px var(--body); cursor: pointer; text-align: left; transition: background .15s, color .15s; }
+.chip:hover { background: var(--ink); color: #fff; }
+
+form { display: flex; gap: 8px; align-items: flex-end; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: var(--bg); }
+textarea { flex: 1; resize: none; max-height: 120px; min-height: 48px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 12px; padding: 13px 14px; font: 400 16px/1.35 var(--body); }
+textarea::placeholder { color: #9A8B80; }
+.send { flex: none; width: 48px; height: 48px; border: 0; border-radius: 12px; background: var(--black); color: #fff; cursor: pointer; display: grid; place-items: center; transition: transform .12s, opacity .15s; }
+.send:active { transform: scale(.95); }
+.send:disabled { opacity: .35; cursor: default; }
+.note { font-size: 11.5px; line-height: 1.45; color: var(--brown); opacity: .8; text-align: center; padding: 0 18px 10px; margin: 0; background: var(--bg); }
+:focus-visible { outline: 2px solid var(--brown); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .msg, .typing span { animation: none; } #log { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <span class="logo" id="logo" role="img" aria-label="TastyDose"></span>
+    <div class="status"><i></i><span id="t-status"></span></div>
+  </header>
+
+  <main id="log" aria-live="polite">
+    <section class="hero">
+      <div class="polaroid" aria-hidden="true"><span class="tape"></span>
+        <div class="photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3.5c-.6 1 .6 2 0 3M12 3.5c-.6 1 .6 2 0 3"/><path d="M3 21.5h16"/></svg></div>
+        <div class="cap">24/7</div>
+      </div>
+      <div>
+        <div class="eyebrow">Tasty Dose</div>
+        <h1>Ask Dose</h1>
+        <p id="t-intro"></p>
+      </div>
+    </section>
+    <div class="msg bot" id="greet"></div>
+    <div class="chips" id="chips"></div>
+  </main>
+
+  <form id="form" autocomplete="off">
+    <textarea id="input" rows="1" maxlength="1500"></textarea>
+    <button class="send" id="send" type="submit" disabled>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </form>
+  <p class="note" id="t-note"></p>
+</div>
+
+<script>
+const T = {
+en:{status:"Online",intro:"Questions about products, delivery or returns? Just ask.",greet:"Hi! 👋 I'm Dose, the TastyDose assistant. What can I help you with?",ph:"Type your question…",send:"Send",chips:["Which product is right for me?","How long does delivery take?","Which products are vegan?","How does the 90-day guarantee work?"],note:"AI assistant – answers may contain mistakes. For orders, write to support@tastydose.com. Not medical advice.",err:"Sorry, something went wrong. Please try again or write to support@tastydose.com."},
+sl:{status:"Na voljo",intro:"Vprašanja o izdelkih, dostavi ali vračilih? Kar vprašaj.",greet:"Živjo! 👋 Sem Dose, asistent TastyDose. Kako ti lahko pomagam?",ph:"Napiši vprašanje…",send:"Pošlji",chips:["Kateri izdelek je pravi zame?","Kako dolgo traja dostava?","Kateri izdelki so veganski?","Kako deluje 90-dnevna garancija?"],note:"AI asistent – odgovori lahko vsebujejo napake. Za naročila piši na support@tastydose.com. Ni zdravniški nasvet.",err:"Ups, nekaj je šlo narobe. Poskusi znova ali piši na support@tastydose.com."},
+de:{status:"Online",intro:"Fragen zu Produkten, Versand oder Rückgabe? Frag einfach.",greet:"Hi! 👋 Ich bin Dose, der TastyDose-Assistent. Wie kann ich dir helfen?",ph:"Schreib deine Frage…",send:"Senden",chips:["Welches Produkt passt zu mir?","Wie lange dauert der Versand?","Welche Produkte sind vegan?","Wie funktioniert die 90-Tage-Garantie?"],note:"KI-Assistent – Antworten können Fehler enthalten. Bei Bestellungen: support@tastydose.com. Keine medizinische Beratung.",err:"Sorry, da ist etwas schiefgelaufen. Bitte versuch es nochmal oder schreib an support@tastydose.com."},
+fr:{status:"En ligne",intro:"Une question sur les produits, la livraison ou les retours ? Demande-moi.",greet:"Salut ! 👋 Je suis Dose, l'assistant TastyDose. Comment puis-je t'aider ?",ph:"Écris ta question…",send:"Envoyer",chips:["Quel produit est fait pour moi ?","Combien de temps prend la livraison ?","Quels produits sont vegan ?","Comment fonctionne la garantie 90 jours ?"],note:"Assistant IA – les réponses peuvent contenir des erreurs. Pour les commandes : support@tastydose.com. Pas un avis médical.",err:"Désolé, un problème est survenu. Réessaie ou écris à support@tastydose.com."},
+nl:{status:"Online",intro:"Vragen over producten, levering of retouren? Vraag maar.",greet:"Hoi! 👋 Ik ben Dose, de TastyDose-assistent. Waarmee kan ik je helpen?",ph:"Typ je vraag…",send:"Verstuur",chips:["Welk product past bij mij?","Hoe lang duurt de levering?","Welke producten zijn vegan?","Hoe werkt de 90-dagen-garantie?"],note:"AI-assistent – antwoorden kunnen fouten bevatten. Voor bestellingen: support@tastydose.com. Geen medisch advies.",err:"Sorry, er ging iets mis. Probeer het opnieuw of mail support@tastydose.com."},
+it:{status:"Online",intro:"Domande su prodotti, spedizione o resi? Chiedi pure.",greet:"Ciao! 👋 Sono Dose, l'assistente TastyDose. Come posso aiutarti?",ph:"Scrivi la tua domanda…",send:"Invia",chips:["Quale prodotto fa per me?","Quanto dura la spedizione?","Quali prodotti sono vegani?","Come funziona la garanzia di 90 giorni?"],note:"Assistente IA – le risposte possono contenere errori. Per gli ordini: support@tastydose.com. Non è un consiglio medico.",err:"Scusa, qualcosa è andato storto. Riprova o scrivi a support@tastydose.com."},
+es:{status:"En línea",intro:"¿Dudas sobre productos, envíos o devoluciones? Pregunta.",greet:"¡Hola! 👋 Soy Dose, el asistente de TastyDose. ¿En qué te ayudo?",ph:"Escribe tu pregunta…",send:"Enviar",chips:["¿Qué producto es para mí?","¿Cuánto tarda el envío?","¿Qué productos son veganos?","¿Cómo funciona la garantía de 90 días?"],note:"Asistente de IA – las respuestas pueden contener errores. Para pedidos: support@tastydose.com. No es consejo médico.",err:"Lo siento, algo salió mal. Inténtalo de nuevo o escribe a support@tastydose.com."},
+pt:{status:"Online",intro:"Dúvidas sobre produtos, envios ou devoluções? Pergunta.",greet:"Olá! 👋 Sou o Dose, o assistente TastyDose. Como posso ajudar?",ph:"Escreve a tua pergunta…",send:"Enviar",chips:["Que produto é ideal para mim?","Quanto tempo demora a entrega?","Que produtos são veganos?","Como funciona a garantia de 90 dias?"],note:"Assistente de IA – as respostas podem conter erros. Para encomendas: support@tastydose.com. Não é aconselhamento médico.",err:"Desculpa, algo correu mal. Tenta novamente ou escreve para support@tastydose.com."},
+hr:{status:"Online",intro:"Pitanja o proizvodima, dostavi ili povratu? Samo pitaj.",greet:"Bok! 👋 Ja sam Dose, TastyDose asistent. Kako ti mogu pomoći?",ph:"Napiši pitanje…",send:"Pošalji",chips:["Koji je proizvod pravi za mene?","Koliko traje dostava?","Koji su proizvodi veganski?","Kako funkcionira jamstvo od 90 dana?"],note:"AI asistent – odgovori mogu sadržavati greške. Za narudžbe: support@tastydose.com. Nije liječnički savjet.",err:"Ups, nešto je pošlo po zlu. Pokušaj ponovno ili piši na support@tastydose.com."},
+ro:{status:"Online",intro:"Întrebări despre produse, livrare sau retur? Întreabă-mă.",greet:"Salut! 👋 Sunt Dose, asistentul TastyDose. Cu ce te pot ajuta?",ph:"Scrie întrebarea ta…",send:"Trimite",chips:["Ce produs mi se potrivește?","Cât durează livrarea?","Ce produse sunt vegane?","Cum funcționează garanția de 90 de zile?"],note:"Asistent AI – răspunsurile pot conține erori. Pentru comenzi: support@tastydose.com. Nu este sfat medical.",err:"Ne pare rău, a apărut o eroare. Încearcă din nou sau scrie la support@tastydose.com."},
+bg:{status:"Онлайн",intro:"Въпроси за продукти, доставка или връщане? Питай.",greet:"Здравей! 👋 Аз съм Dose, асистентът на TastyDose. С какво да помогна?",ph:"Напиши въпроса си…",send:"Изпрати",chips:["Кой продукт е за мен?","Колко време отнема доставката?","Кои продукти са веган?","Как работи 90-дневната гаранция?"],note:"AI асистент – отговорите може да съдържат грешки. За поръчки: support@tastydose.com. Не е медицински съвет.",err:"Съжаляваме, нещо се обърка. Опитай пак или пиши на support@tastydose.com."},
+el:{status:"Online",intro:"Ερωτήσεις για προϊόντα, αποστολή ή επιστροφές; Ρώτα με.",greet:"Γεια! 👋 Είμαι ο Dose, ο βοηθός της TastyDose. Πώς μπορώ να βοηθήσω;",ph:"Γράψε την ερώτησή σου…",send:"Αποστολή",chips:["Ποιο προϊόν μου ταιριάζει;","Πόσο διαρκεί η αποστολή;","Ποια προϊόντα είναι vegan;","Πώς λειτουργεί η εγγύηση 90 ημερών;"],note:"Βοηθός AI – οι απαντήσεις μπορεί να περιέχουν λάθη. Για παραγγελίες: support@tastydose.com. Δεν αποτελεί ιατρική συμβουλή.",err:"Συγγνώμη, κάτι πήγε στραβά. Δοκίμασε ξανά ή γράψε στο support@tastydose.com."},
+hu:{status:"Online",intro:"Kérdésed van termékekről, szállításról vagy visszaküldésről? Kérdezz bátran.",greet:"Szia! 👋 Dose vagyok, a TastyDose asszisztense. Miben segíthetek?",ph:"Írd be a kérdésed…",send:"Küldés",chips:["Melyik termék illik hozzám?","Mennyi ideig tart a szállítás?","Melyik termékek vegánok?","Hogyan működik a 90 napos garancia?"],note:"MI-asszisztens – a válaszok hibásak lehetnek. Rendelésekkel kapcsolatban: support@tastydose.com. Nem orvosi tanács.",err:"Hoppá, valami hiba történt. Próbáld újra, vagy írj a support@tastydose.com címre."},
+cs:{status:"Online",intro:"Dotazy k produktům, doručení nebo vrácení? Zeptej se.",greet:"Ahoj! 👋 Jsem Dose, asistent TastyDose. S čím ti můžu pomoct?",ph:"Napiš svůj dotaz…",send:"Odeslat",chips:["Který produkt je pro mě?","Jak dlouho trvá doručení?","Které produkty jsou veganské?","Jak funguje 90denní záruka?"],note:"AI asistent – odpovědi mohou obsahovat chyby. K objednávkám: support@tastydose.com. Nejde o lékařskou radu.",err:"Promiň, něco se pokazilo. Zkus to znovu nebo napiš na support@tastydose.com."},
+sk:{status:"Online",intro:"Otázky o produktoch, doručení alebo vrátení? Pýtaj sa.",greet:"Ahoj! 👋 Som Dose, asistent TastyDose. S čím ti pomôžem?",ph:"Napíš svoju otázku…",send:"Odoslať",chips:["Ktorý produkt je pre mňa?","Ako dlho trvá doručenie?","Ktoré produkty sú vegánske?","Ako funguje 90-dňová záruka?"],note:"AI asistent – odpovede môžu obsahovať chyby. K objednávkam: support@tastydose.com. Nie je to lekárska rada.",err:"Prepáč, niečo sa pokazilo. Skús to znova alebo napíš na support@tastydose.com."},
+pl:{status:"Online",intro:"Pytania o produkty, dostawę lub zwroty? Pytaj śmiało.",greet:"Cześć! 👋 Jestem Dose, asystent TastyDose. W czym mogę pomóc?",ph:"Wpisz pytanie…",send:"Wyślij",chips:["Który produkt jest dla mnie?","Ile trwa dostawa?","Które produkty są wegańskie?","Jak działa 90-dniowa gwarancja?"],note:"Asystent AI – odpowiedzi mogą zawierać błędy. W sprawie zamówień: support@tastydose.com. To nie jest porada medyczna.",err:"Przepraszamy, coś poszło nie tak. Spróbuj ponownie lub napisz na support@tastydose.com."},
+da:{status:"Online",intro:"Spørgsmål om produkter, levering eller returnering? Bare spørg.",greet:"Hej! 👋 Jeg er Dose, TastyDose-assistenten. Hvad kan jeg hjælpe med?",ph:"Skriv dit spørgsmål…",send:"Send",chips:["Hvilket produkt passer til mig?","Hvor lang tid tager leveringen?","Hvilke produkter er veganske?","Hvordan fungerer 90-dages-garantien?"],note:"AI-assistent – svar kan indeholde fejl. Om ordrer: support@tastydose.com. Ikke medicinsk rådgivning.",err:"Beklager, noget gik galt. Prøv igen eller skriv til support@tastydose.com."},
+et:{status:"Võrgus",intro:"Küsimusi toodete, tarne või tagastuste kohta? Küsi julgelt.",greet:"Tere! 👋 Olen Dose, TastyDose'i assistent. Kuidas saan aidata?",ph:"Kirjuta oma küsimus…",send:"Saada",chips:["Milline toode sobib mulle?","Kui kaua tarne võtab?","Millised tooted on vegan?","Kuidas 90-päevane garantii toimib?"],note:"AI-assistent – vastused võivad sisaldada vigu. Tellimuste kohta: support@tastydose.com. Ei ole meditsiiniline nõuanne.",err:"Vabandust, midagi läks valesti. Proovi uuesti või kirjuta support@tastydose.com."},
+fi:{status:"Paikalla",intro:"Kysyttävää tuotteista, toimituksesta tai palautuksista? Kysy vain.",greet:"Hei! 👋 Olen Dose, TastyDosen avustaja. Miten voin auttaa?",ph:"Kirjoita kysymyksesi…",send:"Lähetä",chips:["Mikä tuote sopii minulle?","Kauanko toimitus kestää?","Mitkä tuotteet ovat vegaanisia?","Miten 90 päivän takuu toimii?"],note:"Tekoälyavustaja – vastauksissa voi olla virheitä. Tilauksista: support@tastydose.com. Ei lääketieteellinen neuvo.",err:"Pahoittelut, jokin meni pieleen. Yritä uudelleen tai kirjoita support@tastydose.com."},
+lv:{status:"Tiešsaistē",intro:"Jautājumi par produktiem, piegādi vai atgriešanu? Jautā droši.",greet:"Sveiki! 👋 Esmu Dose, TastyDose asistents. Kā varu palīdzēt?",ph:"Raksti savu jautājumu…",send:"Sūtīt",chips:["Kurš produkts man der?","Cik ilgi notiek piegāde?","Kuri produkti ir vegāniski?","Kā darbojas 90 dienu garantija?"],note:"AI asistents – atbildēs var būt kļūdas. Par pasūtījumiem: support@tastydose.com. Tas nav medicīnisks padoms.",err:"Atvaino, kaut kas nogāja greizi. Mēģini vēlreiz vai raksti uz support@tastydose.com."},
+lt:{status:"Prisijungęs",intro:"Klausimai apie produktus, pristatymą ar grąžinimą? Klausk drąsiai.",greet:"Labas! 👋 Aš Dose, TastyDose asistentas. Kuo galiu padėti?",ph:"Parašyk klausimą…",send:"Siųsti",chips:["Kuris produktas man tinka?","Kiek trunka pristatymas?","Kurie produktai yra veganiški?","Kaip veikia 90 dienų garantija?"],note:"DI asistentas – atsakymuose gali būti klaidų. Dėl užsakymų: support@tastydose.com. Tai nėra medicininis patarimas.",err:"Atsiprašome, kažkas nepavyko. Bandyk dar kartą arba rašyk support@tastydose.com."}
+};
+
+function pickLang() {
+  const q = new URLSearchParams(location.search).get("lang");
+  if (q && T[q]) return q;
+  for (const p of (navigator.languages || [navigator.language || "en"])) {
+    const c = p.slice(0, 2).toLowerCase();
+    if (T[c]) return c;
+  }
+  return "en";
+}
+const lang = pickLang(), t = T[lang];
+(() => { const img = new Image(); img.crossOrigin = "anonymous";
+  img.onerror = () => { const l = document.getElementById("logo"); l.className = "wordmark"; l.textContent = "Tasty Dose"; };
+  img.src = "https://tastydose.com/cdn/shop/files/LOGO_td_dark.png?v=1778152107&width=400"; })();
+document.documentElement.lang = lang;
+
+const $ = id => document.getElementById(id);
+const log = $("log"), input = $("input"), send = $("send"), form = $("form");
+$("t-status").textContent = t.status;
+$("t-intro").textContent = t.intro;
+$("greet").textContent = t.greet;
+$("t-note").textContent = t.note;
+input.placeholder = t.ph;
+send.setAttribute("aria-label", t.send);
+input.setAttribute("aria-label", t.ph);
+
+const history = [];
+let busy = false;
+
+// Chips
+t.chips.forEach(q => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "chip"; b.textContent = q;
+  b.onclick = () => ask(q);
+  $("chips").appendChild(b);
+});
+
+// Minimal, safe markdown: escape first, then **bold**, [links](https://…), bare URLs/emails, lists, paragraphs.
+function esc(s) { return s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function inline(s) {
+  s = esc(s);
+  const links = [];
+  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_, txt, url) => { links.push(`<a href="${url}" target="_blank" rel="noopener">${txt}</a>`); return `\u0000${links.length - 1}\u0000`; });
+  s = s.replace(/(https?:\/\/[^\s<)]+[^\s<).,!?])/g, u => { links.push(`<a href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\//, "")}</a>`); return `\u0000${links.length - 1}\u0000`; });
+  s = s.replace(/([\w.+-]+@[\w-]+\.[\w.]+[a-z])/gi, m => `<a href="mailto:${m}">${m}</a>`);
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  s = s.replace(/\u0000(\d+)\u0000/g, (_, i) => links[+i]);
+  return s;
+}
+function md(text) {
+  const out = []; let list = null;
+  for (const raw of text.split("\n")) {
+    const line = raw.trim();
+    const m = line.match(/^(?:[-*•]|\d+[.)])\s+(.*)$/);
+    if (m) {
+      const type = /^\d/.test(line) ? "ol" : "ul";
+      if (!list || list.type !== type) { if (list) out.push(`</${list.type}>`); list = { type }; out.push(`<${type}>`); }
+      out.push(`<li>${inline(m[1])}</li>`);
+      continue;
+    }
+    if (list) { out.push(`</${list.type}>`); list = null; }
+    if (line) out.push(`<p>${inline(line.replace(/^#+\s*/, ""))}</p>`);
+  }
+  if (list) out.push(`</${list.type}>`);
+  return out.join("");
+}
+
+function add(role, content, extra) {
+  const d = document.createElement("div");
+  d.className = "msg " + (role === "user" ? "user" : "bot") + (extra ? " " + extra : "");
+  if (role === "user") d.textContent = content; else d.innerHTML = md(content);
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+  return d;
+}
+
+async function ask(text) {
+  text = text.trim();
+  if (!text || busy) return;
+  busy = true; send.disabled = true;
+  const chips = $("chips"); if (chips) chips.remove();
+  add("user", text);
+  history.push({ role: "user", content: text });
+  input.value = ""; resize();
+
+  const typing = document.createElement("div");
+  typing.className = "msg bot typing";
+  typing.innerHTML = "<span></span><span></span><span></span>";
+  log.appendChild(typing); log.scrollTop = log.scrollHeight;
+
+  try {
+    const r = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ messages: history })
+    });
+    const data = await r.json().catch(() => ({}));
+    typing.remove();
+    if (!r.ok || !data.reply) throw new Error(data.error || "error");
+    add("bot", data.reply);
+    history.push({ role: "assistant", content: data.reply });
+  } catch (e) {
+    typing.remove();
+    history.pop(); // let the user retry the same question
+    add("bot", t.err, "err");
+  } finally {
+    busy = false;
+    send.disabled = !input.value.trim();
+    input.focus();
+  }
+}
+
+function resize() { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight, 120) + "px"; }
+input.addEventListener("input", () => { resize(); send.disabled = busy || !input.value.trim(); });
+input.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(input.value); } });
+form.addEventListener("submit", e => { e.preventDefault(); ask(input.value); });
+</script>
+</body>
+</html>
